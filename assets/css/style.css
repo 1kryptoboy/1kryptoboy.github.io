@@ -26,6 +26,18 @@ body::before {
   height: 100vh;
 }
 
+/*
+--------------------------------------------------------------
+# Custom Logo
+#content {
+  position: relative;
+}
+#content img {
+  left: 0px;
+  height: 100px;
+} 
+--------------------------------------------------------------*/
+
 @media (min-width: 1024px) {
   body::before {
     background-attachment: fixed;
