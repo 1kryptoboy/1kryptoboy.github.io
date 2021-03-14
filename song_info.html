@@ -1,26 +1,53 @@
-<!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/styles.css">
-<script src="scripts/main.js"></script>
-</head>
-<body>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+        <link rel="stylesheet" href="css/responsive_style.css">
+        <link rel="stylesheet" href="css/firebase_style.css">
 
-<div class="topnav" id="myTopnav">
-  <a href="index.html">login</a>
-  <a href="user_info.html">user info</a>
-  <a href="song_info.html" class="active">songs</a>
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <i class="fa fa-bars"></i>
-  </a>
-</div>
+        <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+        <script src="scripts/firebase_initialization.js"></script>
+    </head>
 
-<div style="padding-left:16px">
-  <h2>Audio App Login</h2>
-  <p>song sample page</p>
-</div>
+    <body>
+        <div class="topnav" id="myTopnav">
+            <a href="index.html">login</a>
+            <a href="user_info.html">user info</a>
+            <a href="song_info.html" class="active">songs</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
+          </div>
+          
+          <h1>Song Info</h1>
 
-</body>
+        <div id="settings">not logged in</div>
+    
+    <script>
+            var database = firebase.database();
+            var ref = firebase.database().ref();
+
+ref.on("value", function(snapshot) {
+    user_settings = snapshot.val()
+    console.log(user_settings);
+
+   document.getElementById("settings").innerHTML = JSON.stringify(user_settings) 
+}, function (error) {
+   console.log("Error: " + error.code);
+});
+
+
+/*database.ref('artist/songs/daytime/collaborators/').set({
+        joined_date: "Jeremiah"
+      });
+*/
+
+      var adminRef= firebase.database().ref('/artist/songs/daytime');
+      adminRef.on('value',(snapshot) => {
+        console.log("got some data: " + adminRef)
+        //implement you logic here.
+      });        
+</script>
+
+    </body>
 </html>
