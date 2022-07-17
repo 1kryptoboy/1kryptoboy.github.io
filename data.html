@@ -69,6 +69,15 @@
         // User not logged in or has just logged out.
       }
     });
+
+//----------------
+    firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+        getUserData(user.uid)
+        console.log("new area - user_uid is: " + user.uid)
+    }
+})
+//----------------
   </script>
 
   <script>
