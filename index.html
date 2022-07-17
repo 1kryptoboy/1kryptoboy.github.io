@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>login portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/responsive_style.css" />
+  <link rel="stylesheet" href="css/firebase_style.css" />
+</head>
+<body>
+  <div class="topnav" id="myTopnav">
+    <a href="index.html" class="active">login</a>
+    <a href="user_info.html">user info</a>
+    <a href="data.html">data</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+
+
+  <div id="login_div" class="main-div">
+    <h3>LOGIN</h3>
+    <input type="email" placeholder="Email..." id="email_field" />
+    <input type="password" placeholder="Password..." id="password_field" />
+
+    <button onclick="login()">submit</button>
+  </div>
+
+  <div id="user_div" class="loggedin-div">
+    <h3>Welcome</h3>
+    <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <script src="scripts/firebase_initialization.js"></script>
+  <script src="scripts/firebase_index.js"></script>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else { 
+        x.className = "topnav";
+      }
+    }
+    </script>
+
+</body>
+</html>
