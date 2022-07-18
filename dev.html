@@ -26,58 +26,90 @@
   <div id="settings">permission denied</div>
 
   <script>
-    var database = firebase.database();
-    var ref = firebase.database().ref();
-
-    ref.on("value", function (snapshot) {
-      user_settings = snapshot.val()
-      console.log("user_settings is: " + user_settings);
-
-    document.getElementById("settings").innerHTML = JSON.stringify(user_settings)
-    }, function (error) {
-      console.log("Error: " + error.code);
-    });
-
-
-    /*database.ref('artist/songs/daytime/collaborators/').set({
-            joined_date: "Jeremiah"
-          });
-    */
-
-    function test(user_id) {
-      console.log("in test")
-      //var adminRef= firebase.database().ref('/artist/songs/daytime');
-      var adminRef = firebase.database().ref('/users/' + user_id);
-      adminRef.on('value', (snapshot) => {
-        console.log("got some data in test: " + user_id)
-        //implement you logic here.
-        }
-      );
-    }
-
-    var user_id = "denied"
-
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log("second")
-      if (user) {
-        console.log("third")
-        // User logged in already or has just logged-in.
-        console.log("user is 001: " + user.uid);
-        user_id = user.uid
-        test(user_id)
-      } else {
-        // User not logged in or has just logged out.
-      }
-    });
-
-//----------------
     firebase.auth().onAuthStateChanged(user => {
-    if (user) {
+      console.log("in firebase.auth()")
+      if (user) {
         getUserData(user.uid)
-        console.log("new area - user_uid is: " + user.uid)
+        useruid = user.uid
+        console.log("user uid is: " + user.uid)
+        write_data(useruid)
+      }
+    })
+
+    function getUserData(uid) {
+      console.log("in getuserdata()")
+      firebase.database().ref('users/' + uid).once("value", snap => {
+      console.log(snap.val())
+      document.getElementById("settings").innerHTML = JSON.stringify(snap.val())
+      })
     }
-})
-//----------------
+
+    function removeData(useruid){
+      firebase.database().child.ref("users/" + useruid + "/test").remove()
+        .then(function() {
+          console.log("remove was successful")
+        }
+      ).catch(function(error) {
+        console.log("remove failed " + error.message)
+      })
+    }
+
+    function remove3(useruid) {
+      //console.log(firebase.database().ref('users').child(useruid).child('test'))
+
+      //ref = firebase.database().instance.ref("users/"+useruid);
+      //ref.child('test').remove()
+      var db = firebase.database();                   
+      //var ref = db.ref("users/"+useruid); 
+      //var survey = ref("test");    //Eg path is company/employee 
+
+      remove(ref(db,"users/"+useruid+"/test"))
+    }
+
+    function remove2(useruid) {
+      var db = firebase.database();
+      var ref = db.ref();
+      var survey=db.ref("users/"+useruid);    //Eg path is company/employee
+      survey.child("test").remove();
+      //var test = firebase.database().ref("users/"+useruid)
+      //test.update({"test":null});         //Eg key is employee id
+    }
+
+  //throw new Error("Manual Abort Script");
+
+    function write_data(useruid) {
+      console.log("in write data user.uid is: " + useruid)
+      //removeData(useruid)
+      //remove2(useruid)
+      remove2(useruid)
+      return
+      throw new Error("Manual Abort Script");
+
+      console.log("test")
+      var write_ref = firebase.database().ref("users/"+useruid);
+      //testing permission denials, partioning, working so far, 07172022
+      //var write_ref = firebase.database().ref("users/Tf0oa6PhbRSwUlWyduj5mOojLZI3");
+
+      write_ref.update ({
+        "deceased_profile": {
+          "title" : "Captian",
+          "first" : "James",
+          "middle" : "James",          
+          "last" : "Kirk",
+          "suffix" : "II",          
+          "birthdate" : "01/01/3045",
+          "deceased_date" : "01/01/3085"
+        },
+        "services" : {
+          "event1" : "viewing",
+          "date" : "01/03/3085",
+          "time" : "10:00 AM",
+          "restrictions" : "optional mask"
+        }
+      });
+    }
+
+
   </script>
 
   <script>
