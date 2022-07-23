@@ -4,6 +4,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     document.getElementById("user_div").style.display = "block";
     document.getElementById("login_div").style.display = "none";
     document.getElementById("login_div_reset_password").style.display = "none";
+    document.getElementById('nav_bar').classList.remove("w3-hide")
+
     var user = firebase.auth().currentUser;
     if(user != null){
       var email_id = user.email;
@@ -16,15 +18,17 @@ firebase.auth().onAuthStateChanged(function(user) {
     //document.getElementById("login_div").style.display = "block";
     document.getElementById("user_div").style.display = "none";
     document.getElementById("login_div").style.display = "block";
+    document.getElementById('nav_bar').classList.remove("w3-block")
+    document.getElementById('nav_bar').classList.add("w3-hide")
   }
 });
 
 function login(){
-  console.log("is login even kicking off")
+  //console.log("is login even kicking off")
   var userEmail = document.getElementById("email_field").value;
   var userPass = document.getElementById("password_field").value;
-  console.log(userEmail)
-  console.log(userPass)
+  //console.log(userEmail)
+  //console.log(userPass)
   firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
