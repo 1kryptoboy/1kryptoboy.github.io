@@ -1,111 +1,127 @@
-let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let currentFrequency = 0;
+let correctGuesses = parseInt(getCookie("correctGuesses")) || 0;
+let incorrectGuesses = parseInt(getCookie("incorrectGuesses")) || 0;
+let totalGuesses = parseInt(getCookie("totalGuesses")) || 0;
+let audioContext;
 let oscillator;
-let gainNode = audioContext.createGain();
-let randomFrequency;
+let gainNode;
+
+const minFrequency = 0;
+const maxFrequency = 1000;
+const volumeMin = 0;
+const volumeMax = 100;
 
 function generateRandomFrequency() {
-    min_frequency = 20;
-    max_frequency = 200;
-    randomFrequency = Math.floor(Math.random() * (max_frequency - min_frequency + 1)) + min_frequency;
+    const ranges = [
+        { min: minFrequency, max: 999, step: 100 },
+        { min: 1000, max: maxFrequency, step: 500 }
+    ];
+
+    const range = ranges[Math.floor(Math.random() * ranges.length)];
+    const steps = Math.floor((range.max - range.min) / range.step) + 1;
+    return range.min + (Math.floor(Math.random() * steps) * range.step);
+}
+
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(cname) === 0) {
+            return c.substring(cname.length, c.length);
+        }
+    }
+    return "";
+}
+
+function submitGuess() {
+    const guess = parseInt(document.getElementById('guess').value);
+    const result = document.getElementById('result');
+    totalGuesses++;
+    setCookie("totalGuesses", totalGuesses, 1);
+    if (guess === currentFrequency) {
+        correctGuesses++;
+        setCookie("correctGuesses", correctGuesses, 1);
+        result.textContent = `Correct! The frequency was ${currentFrequency} Hz.`;
+    } else {
+        incorrectGuesses++;
+        setCookie("incorrectGuesses", incorrectGuesses, 1);
+        result.textContent = `Incorrect. The frequency was ${currentFrequency} Hz.`;
+    }
+    updateStats();
+}
+
+function tryAgain() {
+    currentFrequency = generateRandomFrequency();
+    setCookie("currentFrequency", currentFrequency, 1);
+    document.getElementById('guess').value = '';
+    document.getElementById('result').textContent = '';
 }
 
 function playSineWave() {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-    if (oscillator) {
-        oscillator.stop();
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
     oscillator = audioContext.createOscillator();
+    gainNode = audioContext.createGain();
     oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(randomFrequency, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(currentFrequency, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime); // Set initial volume to 15%
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    gainNode.gain.setValueAtTime(document.getElementById('volume').value / 100, audioContext.currentTime); // Set volume to slider value
     oscillator.start();
-    setTimeout(stopSineWave, 3000); // Stop after 3 seconds
+
+    // Stop the oscillator after 3 seconds
+    setTimeout(() => {
+        stopSineWave();
+    }, 3000);
 }
 
 function stopSineWave() {
     if (oscillator) {
         oscillator.stop();
+        oscillator.disconnect();
     }
-}
-
-function submitGuess() {
-    let guess = document.getElementById('guess').value;
-    let result = document.getElementById('result');
-    let difference = Math.abs(randomFrequency - guess);
-    result.innerHTML = `Random Frequency: ${randomFrequency} Hz<br>Your Guess: ${guess} Hz<br>Difference: ${difference} Hz`;
-
-    // Track progress
-    let correctGuesses = parseInt(getCookie('correctGuesses')) || 0;
-    let incorrectGuesses = parseInt(getCookie('incorrectGuesses')) || 0;
-    let totalGuesses = parseInt(getCookie('totalGuesses')) || 0;
-
-    console.log(`Before update - Correct: ${correctGuesses}, Incorrect: ${incorrectGuesses}, Total: ${totalGuesses}`);
-
-    if (difference === 0) {
-        correctGuesses++;
-    } else {
-        incorrectGuesses++;
-    }
-    totalGuesses++;
-
-    setCookie('correctGuesses', correctGuesses, 365);
-    setCookie('incorrectGuesses', incorrectGuesses, 365);
-    setCookie('totalGuesses', totalGuesses, 365);
-
-    console.log(`After update - Correct: ${correctGuesses}, Incorrect: ${incorrectGuesses}, Total: ${totalGuesses}`);
-    console.log(`Cookies - Correct: ${getCookie('correctGuesses')}, Incorrect: ${getCookie('incorrectGuesses')}, Total: ${getCookie('totalGuesses')}`);
-
-    updateProgress();
-}
-
-function tryAgain() {
-    generateRandomFrequency();
-    document.getElementById('result').innerHTML = '';
-    document.getElementById('guess').value = '';
-    playSineWave();
 }
 
 function setVolume(value) {
-    gainNode.gain.setValueAtTime(value / 100, audioContext.currentTime);
-    document.getElementById('volumeValue').innerText = `Volume: ${value}%`;
-}
-
-function setCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        let date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
+    if (gainNode) {
+        gainNode.gain.setValueAtTime(value / 100, audioContext.currentTime);
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    console.log(`Set cookie - ${name}: ${value}`);
+    document.getElementById('volumeValue').textContent = `Volume: ${value}%`;
 }
 
-function getCookie(name) {
-    let nameEQ = name + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
+function updateStats() {
+    document.getElementById('correctGuesses').textContent = `Correct Guesses: ${correctGuesses}`;
+    document.getElementById('incorrectGuesses').textContent = `Incorrect Guesses: ${incorrectGuesses}`;
+    document.getElementById('totalGuesses').textContent = `Total Guesses: ${totalGuesses}`;
 }
 
-function updateProgress() {
-    let correctGuesses = parseInt(getCookie('correctGuesses')) || 0;
-    let incorrectGuesses = parseInt(getCookie('incorrectGuesses')) || 0;
-    let totalGuesses = parseInt(getCookie('totalGuesses')) || 0;
-
-    console.log(`Update progress - Correct: ${correctGuesses}, Incorrect: ${incorrectGuesses}, Total: ${totalGuesses}`);
-
-    document.getElementById('progress').innerText = `Total Guesses: ${totalGuesses}, Correct Guesses: ${correctGuesses}, Incorrect Guesses: ${incorrectGuesses}`;
+function updateFrequencyRanges() {
+    const frequencyRanges = document.getElementById('frequencyRanges');
+    frequencyRanges.innerHTML = `
+        <li>${minFrequency} Hz to 999 Hz in steps of 25</li>
+        <li>1000 Hz to ${maxFrequency} Hz in steps of 500</li>
+    `;
+    document.getElementById('guess').min = minFrequency;
+    document.getElementById('guess').max = maxFrequency;
+    document.getElementById('volume').min = volumeMin;
+    document.getElementById('volume').max = volumeMax;
 }
 
-// Initialize with a random frequency
-generateRandomFrequency();
-updateProgress();
+// Initialize the first frequency or get it from the cookie
+currentFrequency = getCookie("currentFrequency") || generateRandomFrequency();
+setCookie("currentFrequency", currentFrequency, 1);
+updateStats();
+updateFrequencyRanges();

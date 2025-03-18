@@ -22,17 +22,24 @@
 </head>
 <body>
     <h1>Frequency Guessing Game</h1>
-    <p>Guess the frequency of the sine wave (between 20 Hz and 8000 Hz):</p>
-    <input type="number" id="guess" min="20" max="8000" placeholder="Enter frequency">
+    <p>Guess the frequency of the sine wave:</p>
+    <p>Frequencies are generated as follows:</p>
+    <ul id="frequencyRanges">
+        <!-- Frequency ranges will be inserted here by JavaScript -->
+    </ul>
+    <input type="number" id="guess" placeholder="Enter frequency">
     <button onclick="submitGuess()">Submit</button>
     <button onclick="tryAgain()">Try Again</button>
     <button onclick="playSineWave()">Play</button>
     <button onclick="stopSineWave()">Stop</button>
     <p id="result"></p>
     <p>Volume Control:</p>
-    <input type="range" id="volume" min="0" max="100" value="15" oninput="setVolume(this.value)">
+    <input type="range" id="volume" value="15" oninput="setVolume(this.value)">
     <p id="volumeValue">Volume: 15%</p>
     <p id="progress"></p>
+    <p id="correctGuesses">Correct Guesses: 0</p>
+    <p id="incorrectGuesses">Incorrect Guesses: 0</p>
+    <p id="totalGuesses">Total Guesses: 0</p>
 
     <script src="./js/scripts.js"></script>
 </body>
