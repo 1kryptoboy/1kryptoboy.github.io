@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequency Guessing Game</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="./css/theme.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Frequency Guessing Game</h1>
+        <p>Guess the frequency of the sine wave:</p>
+        <p>Frequencies are generated as follows:</p>
+        <ul id="frequencyRanges" class="list-unstyled">
+            <!-- Frequency ranges will be inserted here by JavaScript -->
+        </ul>
+        <div class="form-group">
+            <input type="number" id="guess" class="form-control" placeholder="Enter frequency">
+        </div>
+        <button class="btn btn-primary" onclick="submitGuess()">Submit</button>
+        <button class="btn btn-secondary" onclick="tryAgain()">Try Again</button>
+        <button class="btn btn-success" onclick="playSineWave()">Play</button>
+        <button class="btn btn-danger" onclick="stopSineWave()">Stop</button>
+        <p id="result" class="mt-3"></p>
+        <div class="form-group mt-3">
+            <label for="volume">Volume Control:</label>
+            <input type="range" id="volume" class="range-slider" value="15" oninput="setVolume(this.value)">
+            <p id="volumeValue">Volume: 15%</p>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <p id="progress"></p>
+                <p id="correctGuesses">Correct Guesses: 0</p>
+                <p id="incorrectGuesses">Incorrect Guesses: 0</p>
+                <p id="totalGuesses">Total Guesses: 0</p>
+            </div>
+        </div>
+        <!-- Instructions Section -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h2>How to Play</h2>
+            </div>
+            <div class="card-body">
+                <p>1. Click "Play" to hear the sine wave.</p>
+                <p>2. Enter your guess for the frequency in the input box.</p>
+                <p>3. Click "Submit" to check your guess.</p>
+                <p>4. Use the volume control to adjust the sound level.</p>
+                <p>5. Click "Try Again" to reset the game and play a new frequency.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./js/scripts.js"></script>
+</body>
+</html>
