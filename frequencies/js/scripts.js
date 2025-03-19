@@ -6,15 +6,19 @@ let audioContext;
 let oscillator;
 let gainNode;
 
-const minFrequency = 0;
-const maxFrequency = 1000;
+const minFrequency = 20;
+const maxFrequency = 20000;
 const volumeMin = 0;
 const volumeMax = 100;
+const step1 = 25;
+const step2 = 500;
+const range1Max = 999;
+const range2Min = 1000;
 
 function generateRandomFrequency() {
     const ranges = [
-        { min: minFrequency, max: 999, step: 100 },
-        { min: 1000, max: maxFrequency, step: 500 }
+        { min: minFrequency, max: range1Max, step: step1 },
+        { min: range2Min, max: maxFrequency, step: step2 }
     ];
 
     const range = ranges[Math.floor(Math.random() * ranges.length)];
@@ -111,8 +115,8 @@ function updateStats() {
 function updateFrequencyRanges() {
     const frequencyRanges = document.getElementById('frequencyRanges');
     frequencyRanges.innerHTML = `
-        <li>${minFrequency} Hz to 999 Hz in steps of 25</li>
-        <li>1000 Hz to ${maxFrequency} Hz in steps of 500</li>
+        <li>${minFrequency} Hz to ${range1Max} Hz in steps of ${step1}</li>
+        <li>${range2Min} Hz to ${maxFrequency} Hz in steps of ${step2}</li>
     `;
     document.getElementById('guess').min = minFrequency;
     document.getElementById('guess').max = maxFrequency;
