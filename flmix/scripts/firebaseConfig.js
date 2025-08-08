@@ -1,13 +1,16 @@
 // filepath: my-firebase-app/my-firebase-app/scripts/firebaseConfig.js
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_MEASUREMENT_ID"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBeUpN7tq6sgvGdtXKn871vCs9vzQg4aIs",
+  authDomain: "flmix-6c0ea.firebaseapp.com",
+  projectId: "flmix-6c0ea",
+  storageBucket: "flmix-6c0ea.appspot.com",
+  messagingSenderId: "573602314144",
+  appId: "1:573602314144:web:2450e286c0d1ac0fb416c5",
+  measurementId: "G-GL8BE5ZTWN"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
