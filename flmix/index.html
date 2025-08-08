@@ -19,19 +19,5 @@
         <input type="password" id="password_field" placeholder="Password" required>
         <button onclick="login()">Login</button>
     </div>
-
-    <script>
-        // Initialize Firebase and authentication listener
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                document.getElementById("user_div").style.display = "block";
-                document.getElementById("login_div").style.display = "none";
-                document.getElementById("user_para").innerHTML = "Welcome back " + user.email;
-            } else {
-                document.getElementById("user_div").style.display = "none";
-                document.getElementById("login_div").style.display = "block";
-            }
-        });
-    </script>
 </body>
 </html>
