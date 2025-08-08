@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Firebase App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="scripts/firebaseConfig.js"></script>
+    <script type="module" src="scripts/auth.js"></script>
+    <script type="module" src="scripts/firestore.js"></script>
+</head>
+<body>
+    <div id="user_div" style="display: none;">
+        <h2 id="user_para"></h2>
+        <button onclick="logout()">Log Out</button>
+    </div>
+
+    <div id="login_div">
+        <h2>Login</h2>
+        <input type="email" id="email_field" placeholder="Email" required>
+        <input type="password" id="password_field" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <script>
+        // Initialize Firebase and authentication listener
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById("user_div").style.display = "block";
+                document.getElementById("login_div").style.display = "none";
+                document.getElementById("user_para").innerHTML = "Welcome back " + user.email;
+            } else {
+                document.getElementById("user_div").style.display = "none";
+                document.getElementById("login_div").style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
