@@ -12,6 +12,8 @@ window.login = async function () {
   const password = document.getElementById("password_field").value;
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('loginModal'));
+    modal.hide();
   } catch (error) {
     alert("Login failed: " + error.message);
   }
@@ -27,12 +29,7 @@ window.logout = async function () {
 
 // Listen for auth state changes and update UI
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    document.getElementById("user_div").style.display = "block";
-    document.getElementById("login_div").style.display = "none";
-    document.getElementById("user_para").innerText = "Welcome back " + user.email;
-  } else {
-    document.getElementById("user_div").style.display = "none";
-    document.getElementById("login_div").style.display = "block";
+  if (window.updateNavAuthBtn) {
+    window.updateNavAuthBtn(!!user, user ? user.email : null);
   }
 });
