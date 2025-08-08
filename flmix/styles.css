@@ -1,8 +1,17 @@
+:root {
+    --main-blue: #7296ca;
+    --white: #ffffff;
+    --accent-blue: #4f83bf;
+    --deep-blue: #0060aa;
+    --orange: #ee7c1a;
+}
+
 body {
+    background: linear-gradient(135deg, var(--main-blue) 0%, var(--accent-blue) 100%);
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
 .container {
@@ -53,4 +62,109 @@ button:hover {
 
 .hidden {
     display: none;
+}
+
+.navbar {
+    background: var(--deep-blue) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.navbar-brand, .nav-link, .navbar-nav .nav-link.active {
+    color: var(--white) !important;
+    transition: color 0.2s;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 1.4rem;
+}
+
+.nav-link:hover, .nav-link:focus {
+    color: var(--orange) !important;
+}
+
+.header-title {
+    color: var(--white);
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card {
+    background: rgba(255,255,255,0.92);
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+.btn-primary {
+    background-color: var(--deep-blue);
+    border-color: var(--deep-blue);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    color: var(--white);
+}
+
+.modal-content {
+    border-radius: 1rem;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-title {
+    color: var(--deep-blue);
+    font-weight: 700;
+}
+
+.form-control:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(79,131,191,0.15);
+}
+
+.music-list-row {
+    background: rgba(255,255,255,0.96);
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    margin-bottom: 2rem;
+    padding: 1.5rem 1rem;
+    align-items: center;
+}
+
+.music-download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.music-download a {
+    color: var(--deep-blue);
+    font-size: 2.2rem;
+    transition: color 0.2s;
+}
+
+.music-download a:hover {
+    color: var(--orange);
+}
+
+@media (max-width: 767px) {
+    .music-list-row {
+        flex-direction: column;
+        text-align: center;
+    }
+    .music-download {
+        margin-top: 1rem;
+    }
 }
