@@ -11,6 +11,29 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="scripts/auth.js"></script>
+<script>
+  // Toggle navbar button and modal content based on auth state
+  window.updateNavAuthBtn = function(isLoggedIn, userEmail) {
+    const navBtn = document.getElementById('nav-auth-btn');
+    if (isLoggedIn) {
+      navBtn.textContent = userEmail;
+      navBtn.classList.remove('btn-primary');
+      navBtn.classList.add('btn-outline-primary');
+      navBtn.removeAttribute('data-bs-toggle');
+      navBtn.removeAttribute('data-bs-target');
+      navBtn.onclick = () => logout();
+      navBtn.title = "Click to log out";
+    } else {
+      navBtn.textContent = 'Login';
+      navBtn.classList.remove('btn-outline-primary');
+      navBtn.classList.add('btn-primary');
+      navBtn.setAttribute('data-bs-toggle', 'modal');
+      navBtn.setAttribute('data-bs-target', '#loginModal');
+      navBtn.onclick = null;
+      navBtn.title = "Login";
+    }
+  };
+</script>
 </head>
 <body>
     <!-- Navigation Bar -->
