@@ -27,6 +27,7 @@
       audio = new Audio('https://github.com/1kryptoboy/1kryptoboy.github.io/blob/master/flmix/kingofkings.mp3?raw=true');
       audio.addEventListener('loadedmetadata', function() {
         seekbar.max = audio.duration;
+        seekbar.value = 0;
       });
       audio.addEventListener('timeupdate', function() {
         seekbar.value = audio.currentTime;
@@ -39,3 +40,6 @@
         audio.currentTime = seekbar.value;
       }
     });
+  </script>
+</body>
+</html>
