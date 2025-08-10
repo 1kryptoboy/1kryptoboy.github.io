@@ -3,14 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Play Audio Test</title>
+  <style>
+    #seekbar {
+      width: 300px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <button onclick="playAudio()">Play Audio</button>
+  <br>
+  <input type="range" id="seekbar" min="0" max="100" value="0" step="0.01">
   <script>
+    let audio = null;
+    const seekbar = document.getElementById('seekbar');
+
     function playAudio() {
-      var audio = new Audio('https://github.com/1kryptoboy/1kryptoboy.github.io/blob/master/flmix/kingofkings.mp3?raw=true');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+        return;
+      }
+      audio = new Audio('https://github.com/1kryptoboy/1kryptoboy.github.io/blob/master/flmix/kingofkings.mp3?raw=true');
+      audio.addEventListener('loadedmetadata', function() {
+        seekbar.max = audio.duration;
+      });
+      audio.addEventListener('timeupdate', function() {
+        seekbar.value = audio.currentTime;
+      });
       audio.play();
     }
-  </script>
-</body>
-</html>
+
+    seekbar.addEventListener('input', function() {
+      if (audio) {
+        audio.currentTime = seekbar.value;
+      }
+    });
