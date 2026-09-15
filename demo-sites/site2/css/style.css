@@ -456,17 +456,28 @@ p { margin: 0 0 1rem; }
   background: var(--ink-2);
   overflow: hidden;
   padding-block: .9rem;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
 }
+
 .marquee-track {
   display: flex;
   gap: 2.4rem;
   width: max-content;
   animation: slide 32s linear infinite;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
 }
-/*.marquee:hover .marquee-track { animation-play-state: paused; } */
+
 .marquee-track span {
   font-family: var(--ff-display);
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   font-size: 1.4rem;
   letter-spacing: .04em;
   text-transform: uppercase;
@@ -476,17 +487,21 @@ p { margin: 0 0 1rem; }
   gap: 2.4rem;
   white-space: nowrap;
 }
+
 .marquee-track span::after {
   content: "";
-  width: 8px; height: 8px; border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: var(--coral);
   display: inline-block;
 }
-@keyframes slide { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; }
-}
 
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
 /* -------------------------------------------------------------- tracklist */
 .tracks-layout {
   display: grid;
