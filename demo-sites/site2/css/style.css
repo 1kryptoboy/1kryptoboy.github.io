@@ -463,7 +463,7 @@ p { margin: 0 0 1rem; }
   width: max-content;
   animation: slide 32s linear infinite;
 }
-.marquee:hover .marquee-track { animation-play-state: paused; }
+/*.marquee:hover .marquee-track { animation-play-state: paused; } */
 .marquee-track span {
   font-family: var(--ff-display);
   font-size: 1.4rem;
