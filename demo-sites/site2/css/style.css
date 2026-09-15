@@ -466,6 +466,7 @@ p { margin: 0 0 1rem; }
 /*.marquee:hover .marquee-track { animation-play-state: paused; } */
 .marquee-track span {
   font-family: var(--ff-display);
+  user-select: none;
   font-size: 1.4rem;
   letter-spacing: .04em;
   text-transform: uppercase;
